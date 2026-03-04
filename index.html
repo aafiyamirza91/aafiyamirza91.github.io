@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aafiya Mirza — About Me</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal:    #0e6e7e;
+      --teal-lt: #1a9aae;
+      --gold:    #c9933a;
+      --cream:   #faf6ef;
+      --ink:     #1c1c1c;
+      --muted:   #6b6b6b;
+      --card:    #ffffff;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--cream);
+      color: var(--ink);
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE TEXTURE overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.35;
+    }
+
+    /* ── SCROLLBAR ── */
+    ::-webkit-scrollbar { width: 4px; }
+    ::-webkit-scrollbar-track { background: var(--cream); }
+    ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 2px; }
+
+    /* ══════════════════════════════
+       NAV
+    ══════════════════════════════ */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 4rem;
+      z-index: 100;
+      background: rgba(250, 246, 239, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(14,110,126,0.1);
+    }
+    .nav-logo {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem; font-weight: 400; letter-spacing: 0.05em;
+      color: var(--teal);
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none; color: var(--muted); font-size: 0.8rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      transition: color 0.25s;
+    }
+    .nav-links a:hover { color: var(--teal); }
+
+    /* ══════════════════════════════
+       HERO
+    ══════════════════════════════ */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      padding-top: 80px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* decorative arcs */
+    .hero::before {
+      content: '';
+      position: absolute;
+      right: -200px; top: -200px;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      border: 120px solid rgba(14,110,126,0.07);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      left: -100px; bottom: -150px;
+      width: 400px; height: 400px;
+      border-radius: 50%;
+      border: 60px solid rgba(201,147,58,0.1);
+      pointer-events: none;
+    }
+
+    .hero-left {
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 5rem 3rem 5rem 6rem;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-size: 0.7rem; letter-spacing: 0.25em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 1.4rem;
+      opacity: 0; animation: fadeUp 0.7s 0.2s forwards;
+    }
+
+    .hero-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(3.5rem, 6vw, 6rem);
+      font-weight: 300; line-height: 1.05;
+      color: var(--ink);
+      opacity: 0; animation: fadeUp 0.8s 0.35s forwards;
+    }
+    .hero-name em {
+      font-style: italic; color: var(--teal);
+    }
+
+    .hero-tagline {
+      margin-top: 1.8rem;
+      font-size: 1.05rem; color: var(--muted);
+      max-width: 400px; line-height: 1.7;
+      opacity: 0; animation: fadeUp 0.8s 0.5s forwards;
+    }
+
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      margin-top: 2.8rem;
+      text-decoration: none;
+      font-size: 0.78rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: var(--card); background: var(--teal);
+      padding: 0.85rem 2rem; border-radius: 2px;
+      transition: background 0.3s, transform 0.2s;
+      opacity: 0; animation: fadeUp 0.8s 0.65s forwards;
+      width: fit-content;
+    }
+    .hero-cta:hover { background: var(--teal-lt); transform: translateY(-2px); }
+    .hero-cta svg { width: 14px; height: 14px; }
+
+    .hero-right {
+      display: flex; align-items: center; justify-content: center;
+      padding: 5rem 5rem 5rem 2rem;
+      position: relative;
+    }
+
+    .avatar-wrapper {
+      position: relative;
+      opacity: 0; animation: fadeIn 1s 0.5s forwards;
+    }
+
+    .avatar-ring {
+      width: 340px; height: 340px; border-radius: 50%;
+      background: linear-gradient(135deg, var(--teal) 0%, var(--teal-lt) 60%, var(--gold) 100%);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 30px 70px rgba(14,110,126,0.25);
+    }
+
+    .avatar-inner {
+      width: 316px; height: 316px; border-radius: 50%;
+      background: var(--cream);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 7rem; font-weight: 300;
+      color: var(--teal); letter-spacing: -0.02em;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* subtle radial glow inside avatar */
+    .avatar-inner::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(circle at 40% 35%, rgba(201,147,58,0.12) 0%, transparent 65%);
+    }
+
+    /* floating badge */
+    .avatar-badge {
+      position: absolute;
+      bottom: 12px; right: -10px;
+      background: var(--gold);
+      color: #fff;
+      font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase;
+      padding: 0.5rem 1rem; border-radius: 2px;
+      white-space: nowrap;
+      box-shadow: 0 6px 20px rgba(201,147,58,0.35);
+    }
+
+    /* ══════════════════════════════
+       SECTION SHARED
+    ══════════════════════════════ */
+    section { padding: 6rem 6rem; }
+    .section-label {
+      font-size: 0.68rem; letter-spacing: 0.28em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.7rem;
+    }
+    .section-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300; color: var(--ink);
+      line-height: 1.15; margin-bottom: 2.5rem;
+    }
+
+    /* ══════════════════════════════
+       ABOUT / OBJECTIVE
+    ══════════════════════════════ */
+    #about {
+      background: #fff;
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 5rem;
+      align-items: center;
+    }
+
+    .about-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.7rem; font-weight: 300; font-style: italic;
+      color: var(--teal); line-height: 1.5;
+      border-left: 3px solid var(--gold);
+      padding-left: 1.5rem;
+    }
+
+    .about-text { font-size: 1rem; line-height: 1.85; color: var(--muted); }
+    .about-text strong { color: var(--ink); font-weight: 500; }
+
+    /* ══════════════════════════════
+       EDUCATION
+    ══════════════════════════════ */
+    #education { background: var(--cream); }
+
+    .timeline {
+      display: flex; flex-direction: column; gap: 0;
+      border-left: 2px solid rgba(14,110,126,0.2);
+      padding-left: 2.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .tl-item {
+      position: relative;
+      padding-bottom: 3rem;
+      opacity: 0;
+      transform: translateX(-20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+    .tl-item.visible { opacity: 1; transform: translateX(0); }
+
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -2.5rem;
+      top: 0.35rem;
+      transform: translateX(-50%);
+      width: 12px; height: 12px; border-radius: 50%;
+      background: var(--teal);
+      border: 3px solid var(--cream);
+      box-shadow: 0 0 0 2px var(--teal);
+    }
+
+    .tl-year {
+      font-size: 0.7rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--gold);
+      margin-bottom: 0.4rem;
+    }
+    .tl-degree {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem; font-weight: 400; color: var(--ink);
+      margin-bottom: 0.25rem;
+    }
+    .tl-school { font-size: 0.9rem; color: var(--muted); margin-bottom: 0.3rem; }
+    .tl-score {
+      display: inline-block;
+      background: rgba(14,110,126,0.08);
+      color: var(--teal);
+      font-size: 0.75rem; letter-spacing: 0.08em;
+      padding: 0.25rem 0.75rem; border-radius: 2px;
+    }
+
+    /* ══════════════════════════════
+       SKILLS
+    ══════════════════════════════ */
+    #skills {
+      background: var(--teal);
+      color: #fff;
+    }
+    #skills .section-label { color: var(--gold); }
+    #skills .section-title { color: #fff; }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .skill-card {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 4px;
+      padding: 1.6rem 1.4rem;
+      display: flex; align-items: flex-start; gap: 1rem;
+      transition: background 0.3s, transform 0.25s;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.5s, transform 0.5s, background 0.3s;
+    }
+    .skill-card.visible { opacity: 1; transform: translateY(0); }
+    .skill-card:hover { background: rgba(255,255,255,0.15); transform: translateY(-3px); }
+
+    .skill-icon {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: rgba(201,147,58,0.2);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+      color: var(--gold);
+      font-size: 1rem;
+    }
+
+    .skill-name { font-size: 0.95rem; color: #fff; margin-bottom: 0.25rem; font-weight: 400; }
+    .skill-desc { font-size: 0.78rem; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+    /* ══════════════════════════════
+       CONTACT
+    ══════════════════════════════ */
+    #contact { background: #fff; text-align: center; }
+    #contact .section-label,
+    #contact .section-title { text-align: center; }
+    #contact .section-title { margin-bottom: 1rem; }
+    .contact-sub {
+      color: var(--muted); font-size: 0.95rem;
+      margin-bottom: 3rem; line-height: 1.7;
+    }
+
+    .contact-grid {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;
+    }
+
+    .contact-card {
+      display: flex; align-items: center; gap: 1rem;
+      background: var(--cream); border: 1px solid rgba(14,110,126,0.12);
+      border-radius: 4px; padding: 1.2rem 2rem;
+      text-decoration: none; color: var(--ink);
+      transition: border-color 0.25s, transform 0.2s, box-shadow 0.25s;
+    }
+    .contact-card:hover {
+      border-color: var(--teal);
+      transform: translateY(-3px);
+      box-shadow: 0 10px 30px rgba(14,110,126,0.12);
+    }
+    .contact-card svg { width: 18px; height: 18px; color: var(--teal); flex-shrink: 0; }
+    .contact-detail { text-align: left; }
+    .contact-type { font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+    .contact-value { font-size: 0.9rem; font-weight: 500; margin-top: 0.1rem; }
+
+    /* ══════════════════════════════
+       FOOTER
+    ══════════════════════════════ */
+    footer {
+      background: var(--ink);
+      padding: 2rem 6rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .footer-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: rgba(255,255,255,0.6);
+    }
+    .footer-copy { font-size: 0.75rem; color: rgba(255,255,255,0.3); }
+
+    /* ══════════════════════════════
+       ANIMATIONS
+    ══════════════════════════════ */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* floating ring pulse */
+    .avatar-ring { animation: pulse 4s ease-in-out infinite; }
+    @keyframes pulse {
+      0%, 100% { box-shadow: 0 30px 70px rgba(14,110,126,0.25); }
+      50%       { box-shadow: 0 35px 90px rgba(14,110,126,0.38); }
+    }
+
+    /* ══════════════════════════════
+       RESPONSIVE
+    ══════════════════════════════ */
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { gap: 1.2rem; }
+      .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 70px; }
+      .hero-left { padding: 4rem 2rem 2rem; align-items: center; text-align: center; }
+      .hero-tagline { text-align: center; max-width: 100%; }
+      .hero-cta { margin: 2rem auto 0; }
+      .hero-right { padding: 2rem; justify-content: center; }
+      .avatar-ring { width: 240px; height: 240px; }
+      .avatar-inner { width: 218px; height: 218px; font-size: 5rem; }
+      #about { grid-template-columns: 1fr; gap: 2rem; }
+      section { padding: 4rem 2rem; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Aafiya Mirza</div>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#education">Education</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Welcome to my portfolio</p>
+    <h1 class="hero-name">Aafiya<br><em>Mirza</em></h1>
+    <p class="hero-tagline">
+      A driven BSc student with a passion for analytical thinking,
+      problem-solving, and making a meaningful impact in every endeavour.
+    </p>
+    <a href="#contact" class="hero-cta">
+      Get In Touch
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </a>
+  </div>
+
+  <div class="hero-right">
+    <div class="avatar-wrapper">
+      <div class="avatar-ring">
+        <div class="avatar-inner">AM</div>
+      </div>
+      <div class="avatar-badge">BSc Student · Lucknow</div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div>
+    <p class="section-label">About Me</p>
+    <blockquote class="about-quote">"Eager to grow, learn, and make a positive impact."</blockquote>
+  </div>
+  <div>
+    <p class="about-text">
+      Hi, I'm <strong>Aafiya Mirza</strong> — a motivated and enthusiastic science student
+      currently pursuing my <strong>Bachelor of Science</strong> at Integral University, Lucknow.
+      Born on 8th October 2002, I am at an exciting stage of my academic journey where I'm
+      translating classroom knowledge into real-world skills.
+      <br /><br />
+      I bring a blend of <strong>strong communication</strong>, sharp analytical thinking,
+      and a collaborative spirit to everything I do. I'm fluent in English and proficient in
+      MS Office tools, and I thrive in team environments where ideas can come together to
+      create something meaningful.
+      <br /><br />
+      My goal is to step into a <strong>dynamic professional role</strong> where I can
+      contribute meaningfully from day one — while continuing to learn and grow.
+    </p>
+  </div>
+</section>
+
+<!-- EDUCATION -->
+<section id="education">
+  <p class="section-label">Academic Journey</p>
+  <h2 class="section-title">Education</h2>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <p class="tl-year">Sep 2022 – Present</p>
+      <p class="tl-degree">Bachelor of Science</p>
+      <p class="tl-school">Integral University, Lucknow</p>
+    </div>
+
+    <div class="tl-item">
+      <p class="tl-year">Apr 2020 – Apr 2021</p>
+      <p class="tl-degree">Intermediate Education (10+2)</p>
+      <p class="tl-school">Bal Vidya Mandir, Lucknow</p>
+      <span class="tl-score">8.2 CGPA</span>
+    </div>
+
+    <div class="tl-item">
+      <p class="tl-year">Apr 2018 – Apr 2019</p>
+      <p class="tl-degree">High School</p>
+      <p class="tl-school">Navyug Radiance Senior Secondary School, Lucknow</p>
+      <span class="tl-score">76%</span>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <p class="section-label">What I Bring</p>
+  <h2 class="section-title">Skills &amp; Strengths</h2>
+
+  <div class="skills-grid">
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+      </div>
+      <div>
+        <p class="skill-name">Communication</p>
+        <p class="skill-desc">Confident verbal and written communicator across professional contexts.</p>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      </div>
+      <div>
+        <p class="skill-name">Problem Solving</p>
+        <p class="skill-desc">Analytical thinker who approaches challenges with structure and clarity.</p>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      </div>
+      <div>
+        <p class="skill-name">English Fluency</p>
+        <p class="skill-desc">Proficient in both spoken and written English for professional environments.</p>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+      </div>
+      <div>
+        <p class="skill-name">MS Office</p>
+        <p class="skill-desc">Skilled in Word, Excel, and PowerPoint for documentation and presentations.</p>
+      </div>
+    </div>
+
+    <div class="skill-card">
+      <div class="skill-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+      </div>
+      <div>
+        <p class="skill-name">Team Player</p>
+        <p class="skill-desc">Collaborative mindset with a positive attitude and respect for diverse perspectives.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <p class="section-label">Say Hello</p>
+  <h2 class="section-title">Get In Touch</h2>
+  <p class="contact-sub">
+    I'm open to opportunities, internships, and collaborations.<br />
+    Feel free to reach out — I'd love to connect.
+  </p>
+
+  <div class="contact-grid">
+    <a href="mailto:aafiyamirza91@gmail.com" class="contact-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+      <div class="contact-detail">
+        <div class="contact-type">Email</div>
+        <div class="contact-value">aafiyamirza91@gmail.com</div>
+      </div>
+    </a>
+
+    <a href="tel:7368944024" class="contact-card">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.82 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.77 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      <div class="contact-detail">
+        <div class="contact-type">Phone</div>
+        <div class="contact-value">+91 7368944024</div>
+      </div>
+    </a>
+
+    <div class="contact-card" style="cursor:default;">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+      <div class="contact-detail">
+        <div class="contact-type">Location</div>
+        <div class="contact-value">Lucknow, Uttar Pradesh, India</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-name">Aafiya Mirza</div>
+  <div class="footer-copy">© 2024 aafiyamirza.me · All rights reserved</div>
+</footer>
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.tl-item, .skill-card').forEach((el, i) => {
+    el.style.transitionDelay = `${i * 0.1}s`;
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
